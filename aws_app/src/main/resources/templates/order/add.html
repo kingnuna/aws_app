@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+
+let payment = 0;
+let cnt = 0;
+$(document).ready(function(){
+	$('.add').click(function(){
+		let num = $(this).attr('num');
+		let amount = $('#amount_'+num).val();
+		let name = $('#name_'+num).text();
+		let price = $('#price_'+num).text();
+		let txt = $('#orderlist').html();
+		txt += 'name:'+name + '/ amount:'+amount+' * '+ price + '('+(amount*price)+')<br/>'
+		$('#orderlist').html(txt);
+		payment += amount*price;
+		$('#pay').text(payment);
+		let html = '<input type="hidden" name="items['+cnt+'].prod" value="'+num+'">';
+		html += '<input type="hidden" name="items['+cnt+'].amount" value="'+amount+'">';
+		let src = $('#f').html();
+		$('#f').html(src+html);
+		cnt++;
+		alert($('#f').html());
+	});
+	$('#res').click(function(){
+		f.payment.value = payment;
+		f.submit();
+	});
+});
+</script>
+</head>
+<body>
+<h3>주문 페이지</h3>
+<table border="1">
+<tr><th>상품이미지</th><th>상품명</th><th>가격</th><th>주문수량</th></tr>
+<tr th:each="p:${list}">
+	<td><img th:src="@{/auth/cafe/read-img(fname=${p.fname })}" style="width:100px;height:100px"></td>
+	<td th:id="${'name_'+p.num}" th:text="${p.name}"></td>
+	<td th:id="${'price_'+p.num}" th:text="${p.price}"></td>
+	<td><input type="number" th:id="${'amount_'+p.num}">
+	<input type="button" value="추가" class="add" th:num="${p.num}"></td>
+</tr>
+</table>
+<h4>주문항목 <br/>결제금액:<span id="pay">0</span><input type="button" value="결제" id="res"></h4>
+<div id='orderlist'>
+
+</div>
+<form action="/auth/order/add" method="post" style="display:none" id="f">
+<input type="hidden" name="oid" th:value="${session.loginId}">
+<input type="hidden" name="store" th:value="${list[0].store.storeid}">
+<input type="hidden" name="payment">
+</form>
+</body>
+</html>

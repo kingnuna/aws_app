@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.ajax({
+		url:"/auth/store/listajax",  //서버주소
+		type:"get",   				//전송방식
+		dataType:'json',			//응답데이터 형태
+		success:function(res){		//응답 정상일때
+			alert(res);
+			let txt = '';
+			for(let s of res.list){
+				txt += '매장명:<a href="/auth/cafe/list?storeid='+s.storeid+'">'+s.storeid+ '</a> / 주소:'+s.address+'<br/>';
+			}
+			$('#list').html(txt);
+		},
+		error:function(){			//응답 에러일때
+			alert('error');
+		}
+	});
+});
+</script>
+</head>
+<body>
+<h3>구매자 페이지</h3>
+<div th:insert="~{header}"></div>
+ID:<span th:text="${session.loginId}"></span> / 
+TYPE:<span th:text="${session.type}"></span><br/>
+<div id="list"></div>
+</body>
+</html>

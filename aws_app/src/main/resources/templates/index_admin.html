@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>관리자 페이지</h3>
+<div th:insert="~{header}"></div>
+ID:<span th:text="${session.loginId}"></span> / 
+TYPE:<span th:text="${session.type}"></span><br/>
+
+<a href="/auth/store/list">매장목록</a><br/>
+</body>
+</html>

@@ -63,7 +63,7 @@ jobs:
           sudo docker container rm aws_app  #컨테이너 삭제
           sudo docker rmi kingnuna/repo1:aws_app  #이미지 삭제
           sudo docker pull kingnuna/repo1:aws_app # 이미지 다운로드
-          sudo docker run -p 8081:8081 --name aws_app -v /cafeimg:img kingnuna/repo1:aws_app #실행
+          sudo docker run -p 8081:8081 --name aws_app -v /cafeimg:/img kingnuna/repo1:aws_app #실행
 
 
 
